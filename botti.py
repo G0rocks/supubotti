@@ -26,7 +26,7 @@ def step(dir):
 
 # Snua einn hring
 try:
-  N = 360/1.8
+  N = 200
   direction = 1
 
   for i in 0..N:
