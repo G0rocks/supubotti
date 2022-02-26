@@ -20,6 +20,7 @@ step_size = 1.8 # Degrees
 def step(dir):
   GPIO.output(DIR_PIN, dir)
   GPIO.output(STEP_PIN, 1)
+  sleep(1/200)
   GPIO.output(STEP_PIN, 0)
 
 
