@@ -15,7 +15,7 @@ class Motor:
     self.step_pin = step_pin
     self.dir = dir
     GPIO.setup(self.dir_pin, GPIO.OUT)
-    GPIO.setup(self.dir_pin, GPIO.OUT)
+    GPIO.setup(self.step_pin, GPIO.OUT)
 
   # Step, tekur motor og direction sem input, motor = 1 eda motor = 2, dir = 1 (rettsaelis) eda dir = 2 (rangsaelis)
   def step(self):
