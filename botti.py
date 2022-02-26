@@ -29,7 +29,7 @@ try:
   N = 200
   direction = 1
 
-  for i in 0..N:
+  for i in range(N):
     step(direction)
 
 except KeyboardInterrupt:
