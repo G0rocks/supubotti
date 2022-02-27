@@ -70,8 +70,13 @@ motors = [mot1, mot2]
 
 # Snua einn hring
 try:
-  #motors[0].to_deg(90)
-  motors[1].to_deg(90)
+  motors[0].to_deg(9)
+  sleep(1)
+  motors[0].to_deg(-9)
+  sleep(1)
+  motors[1].to_deg(9)
+  sleep(1)
+  motors[1].to_deg(-9)
 
 except KeyboardInterrupt:
   GPIO.cleanup()
