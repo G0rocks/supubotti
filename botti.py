@@ -30,6 +30,7 @@ class Motor:
     diff = deg-self.pos
     if diff < 0:
       self.dir = False
+      diff = -diff
     else:
       self.dir = True
 
