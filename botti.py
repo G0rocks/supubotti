@@ -8,7 +8,7 @@ STEP_SIZE= 1.8 # 1.8 Degrees but in microstepping
 
 # Motor klassi
 class Motor:
-  def __init__(self, ID, pos, dir_pin, step_pin, dir):
+  def __init__(self, ID, pos, dir_pin, step_pin, dir, speed):
     self.ID = ID
     self.pos = pos
     self.dir_pin = dir_pin
@@ -16,12 +16,13 @@ class Motor:
     self.dir = dir
     GPIO.setup(self.dir_pin, GPIO.OUT)
     GPIO.setup(self.step_pin, GPIO.OUT)
+    self.speed = speed
 
   # Step, tekur motor og direction sem input, motor = 1 eda motor = 2, dir = 1 (rettsaelis) eda dir = 2 (rangsaelis)
   def step(self):
     GPIO.output(self.dir_pin, self.dir)
     GPIO.output(self.step_pin, 1)
-    sleep(1/200)
+    sleep(1/1000)
     GPIO.output(self.step_pin, 0)
 
   # Motor to degree
@@ -40,7 +41,7 @@ class Motor:
     # Steppa ad mismun
     for i in range(N_steps):
       self.step()
-      sleep(1/200)
+      sleep(1/self.speed)
 
 
 
@@ -50,13 +51,15 @@ pos1 = 0
 DIR1_PIN = 5
 STEP1_PIN = 12
 dir1 = True
-mot1 = Motor(1, pos1, DIR1_PIN, STEP1_PIN, dir1)
+speed1 = 10
+mot1 = Motor(1, pos1, DIR1_PIN, STEP1_PIN, dir1, speed1)
   # Motor 2
 pos2 = 0
 DIR2_PIN = 6
 STEP2_PIN = 13
 dir2 = True
-mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2)
+speed2 = 100
+mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2, speed2)
 # Motors
 motors = [mot1, mot2]
   # TempSensor
@@ -71,18 +74,13 @@ motors = [mot1, mot2]
 
 # Snua einn hring
 try:
-  motors[1].to_deg(18)
-  motors[0].to_deg(108)
-  motors[1].to_deg(18)
-  motors[0].to_deg(108)
+  motors[1].to_deg(36)
+  motors[0].to_deg(18)
   sleep(2)
   motors[1].to_deg(-36)
   sleep(1)
-  motors[0].to_deg(-108)
+  motors[0].to_deg(-18)
   sleep(1)
-  motors[1].to_deg(81)
-  sleep(0.2)
-  motors[1].to_deg(-81)
 
 except KeyboardInterrupt:
   GPIO.cleanup()
