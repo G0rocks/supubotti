@@ -1,7 +1,5 @@
 # Imports
 from time import sleep
-
-from sympy import true
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)  # Mode, til ad nota pinoutid sem vid erum ad nota
 
