@@ -47,8 +47,8 @@ dir1 = 1
 mot1 = Motor(1, pos1, DIR1_PIN, STEP1_PIN, dir1)
   # Motor 2
 pos2 = 0
-DIR2_PIN = 5
-STEP2_PIN = 12
+DIR2_PIN = 6
+STEP2_PIN = 13
 dir2 = 1
 mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2)
 # Motors
