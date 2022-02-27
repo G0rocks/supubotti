@@ -40,6 +40,7 @@ class Motor:
     # Steppa ad mismun
     for i in range(N_steps):
       self.step()
+      sleep(1/200)
 
 
 
@@ -70,13 +71,18 @@ motors = [mot1, mot2]
 
 # Snua einn hring
 try:
-  motors[0].to_deg(9)
+  motors[1].to_deg(18)
+  motors[0].to_deg(108)
+  motors[1].to_deg(18)
+  motors[0].to_deg(108)
+  sleep(2)
+  motors[1].to_deg(-36)
   sleep(1)
-  motors[0].to_deg(-9)
+  motors[0].to_deg(-108)
   sleep(1)
-  motors[1].to_deg(9)
-  sleep(1)
-  motors[1].to_deg(-9)
+  motors[1].to_deg(81)
+  sleep(0.2)
+  motors[1].to_deg(-81)
 
 except KeyboardInterrupt:
   GPIO.cleanup()
