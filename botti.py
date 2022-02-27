@@ -21,7 +21,7 @@ class Motor:
   def step(self):
     GPIO.output(self.dir_pin, self.dir)
     GPIO.output(self.step_pin, 1)
-    sleep(1/400)
+    sleep(1/200)
     GPIO.output(self.step_pin, 0)
 
   # Motor to degree
@@ -69,8 +69,8 @@ motors = [mot1, mot2]
 
 # Snua einn hring
 try:
-  #motors[0].to_deg(18)
-  motors[1].to_deg(18)
+  #motors[0].to_deg(90)
+  motors[1].to_deg(90)
 
 except KeyboardInterrupt:
   GPIO.cleanup()
