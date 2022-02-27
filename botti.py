@@ -1,5 +1,7 @@
 # Imports
 from time import sleep
+
+from sympy import true
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)  # Mode, til ad nota pinoutid sem vid erum ad nota
 
@@ -28,6 +30,10 @@ class Motor:
   def to_deg(self, deg):
     # Finna mismun
     diff = deg-self.pos
+    if diff < 0:
+      self.dir = False
+    else:
+      self.dir = True
 
     # Finna fjolda steps
     N_steps = int(diff/STEP_SIZE)*4
@@ -43,13 +49,13 @@ class Motor:
 pos1 = 0
 DIR1_PIN = 5
 STEP1_PIN = 12
-dir1 = 1
+dir1 = True
 mot1 = Motor(1, pos1, DIR1_PIN, STEP1_PIN, dir1)
   # Motor 2
 pos2 = 0
 DIR2_PIN = 6
 STEP2_PIN = 13
-dir2 = 1
+dir2 = True
 mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2)
 # Motors
 motors = [mot1, mot2]
