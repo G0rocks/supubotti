@@ -3,9 +3,11 @@ import time
 from time import sleep
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)  # Mode, til ad nota pinoutid sem vid erum ad nota
-from machine import Pin
-from onewire import DS18X20
-from onewire import OneWire
+GPIO.setwarnings(False)
+
+# Fyrir hitanema
+import board
+#from adafruit_onewire.bus import OneWireBus
 
 # Constants
 STEP_SIZE= 1.8 # 1.8 Degrees but in microstepping
@@ -70,16 +72,23 @@ mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2, speed2)
 motors = [mot1, mot2]
   # TempSensor
 soup_temp = 100
-TEMP_PIN = 'P10'
-temp_sensor = DS18X20(OneWire(Pin(TEMP_PIN)))
+#ow_bus = OneWireBus(board.D0)
+#TEMP_PIN = 'P7'
+#temp_sensor = DS18X20(OneWire())
 
-# Maela hita function
-def read_temp()
-  temper = temp.read_temp_async()
-  sleep(1)
-  temp.start_conversion()
-  sleep(1)
-  return temper
+
+# scan devices function
+#def scan_devices():
+#  devices = ow_bus.scan()
+#  for d in devices:
+#    print("ROM={}\tFamily=0x{:02x}".format(d.rom, d.family_code))
+
+#def read_temp():
+#  temper = temp.read_temp_async()
+#  sleep(1)
+#  temp.start_conversion()
+#  sleep(1)
+#  return temper
 
 
 # Fara i nullstodu
@@ -89,6 +98,9 @@ def read_temp()
 
 # Snua einn hring
 try:
+  # Maela hita 
+  #scan_devices()
+
   # Nidur ad supu
   motors[1].to_deg(36)
   motors[0].to_deg(18)
@@ -96,6 +108,7 @@ try:
   # Greina supu
   print("Súpa: " + soup_type)
 
+  '''
   # Maela supu
   while (soup_temp > MAX_SOUP_TEMP):
     # Blaka
@@ -103,10 +116,10 @@ try:
     motors[1].to_deg(9)
     # Maela
     soup_temp = read_temp()
-    
+  '''    
 
-    # Prenta
-    print("Soup temp: " + soup_temp)
+  # Prenta
+  print("Soup temp: " + str(soup_temp))
   
   sleep(2)
   motors[1].to_deg(-36)
