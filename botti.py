@@ -74,7 +74,7 @@ pos2 = 0
 DIR2_PIN = 6
 STEP2_PIN = 13
 dir2 = True
-speed2 = 10
+speed2 = 100
 mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2, speed2)
 # Motors
 motors = [mot1, mot2]
@@ -108,7 +108,7 @@ try:
   print("Na i supu")
   # Nidur ad supu
   motors[1].to_deg(36)
-  motors[0].to_deg(18)
+  motors[0].to_deg(36)
 
   # Greina supu
   print("Súpa: " + soup_type)
@@ -126,7 +126,7 @@ try:
   sleep(2)
   motors[1].to_deg(-36)
   sleep(1)
-  motors[0].to_deg(-18)
+  motors[0].to_deg(-36)
   sleep(1)
 
 except KeyboardInterrupt:
