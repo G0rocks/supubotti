@@ -1,3 +1,4 @@
+print("Starting")
 # Imports
 import time
 from time import sleep
@@ -18,10 +19,10 @@ device_file = device_folder + '/w1_slave'
 
 # Constants
 STEP_SIZE= 1.8 # 1.8 Degrees but in microstepping
-MAX_SOUP_TEMP = 40
+MAX_SOUP_TEMP = 25
 
 # Variables
-soup_type = "Aspas"
+#soup_type = "Aspas"
 
 # Motor klassi
 class Motor:
@@ -104,31 +105,56 @@ def read_temp():
 
 # Snua einn hring
 try:
-  # Maela hita 
-  #scan_devices()
+  while(True):
+    print("Na i supu")
+    # Nidur ad supu
+    motors[1].to_deg(36)
+    motors[0].to_deg(27)
 
-  # Nidur ad supu
-  motors[1].to_deg(36)
-  motors[0].to_deg(18)
+    # Greina supu
+    #print("Súpa: " + soup_type)
 
-  # Greina supu
-  print("Súpa: " + soup_type)
-
-  # Maela supu
-  while (soup_temp > MAX_SOUP_TEMP):
-    # Blaka
-    motors[1].to_deg(-9)
-    motors[1].to_deg(9)
-    # Maela
+    # Maela supu
+    print("Maelir supu")
+    #sleep(10)
+    #print(". ")
+    #sleep(10)
+    #print(". ", end = "")
+    #sleep(10)
+    #print(". ", end = "")
+    temp1 = read_temp()
+    sleep(3)
     soup_temp = read_temp()
-    # Prenta
-    print("Soup temp: " + str(soup_temp))
-  
-  sleep(2)
-  motors[1].to_deg(-36)
-  sleep(1)
-  motors[0].to_deg(-18)
-  sleep(1)
+    temp_diff = soup_temp - temp1
+    while(temp_diff > 0):
+      temp1 = read_temp()
+      sleep(3)
+      soup_temp = read_temp()
+      temp_diff = soup_temp - temp1
+      print("Hitastig: " + str(soup_temp) + "°C")
+
+    motors[1].speed = 20
+    while (soup_temp > MAX_SOUP_TEMP):
+      print("Supa of heit")
+      # Blaka
+      motors[1].to_deg(-9)
+      sleep(1)
+      motors[1].to_deg(9)
+      # Maela
+      soup_temp = read_temp()
+      # Prenta
+      print("Hitastig: " + str(soup_temp) + "°C")
+    motors[1].speed = speed2
+    print("Supa passlega heit")
+
+    sleep(2)
+    motors[1].to_deg(-27)
+    sleep(1)
+    motors[0].to_deg(-27)
+    sleep(8)
+    motors[1].to_deg(-9)
 
 except KeyboardInterrupt:
   GPIO.cleanup()
+
+print("Done")
