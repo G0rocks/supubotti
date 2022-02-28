@@ -6,8 +6,15 @@ GPIO.setmode(GPIO.BCM)  # Mode, til ad nota pinoutid sem vid erum ad nota
 GPIO.setwarnings(False)
 
 # Fyrir hitanema
-import board
-#from adafruit_onewire.bus import OneWireBus
+import os
+import glob
+os.system('modprobe w1-gpio')
+os.system('modprobe w1-therm')
+
+# Sensor
+base_dir = '/sys/bus/w1/devices/'
+device_folder = glob.glob(base_dir + '28*')[0]
+device_file = device_folder + '/w1_slave'
 
 # Constants
 STEP_SIZE= 1.8 # 1.8 Degrees but in microstepping
@@ -72,24 +79,23 @@ mot2 = Motor(2, pos2, DIR2_PIN, STEP2_PIN, dir2, speed2)
 motors = [mot1, mot2]
   # TempSensor
 soup_temp = 100
-#ow_bus = OneWireBus(board.D0)
-#TEMP_PIN = 'P7'
-#temp_sensor = DS18X20(OneWire())
 
-
-# scan devices function
-#def scan_devices():
-#  devices = ow_bus.scan()
-#  for d in devices:
-#    print("ROM={}\tFamily=0x{:02x}".format(d.rom, d.family_code))
-
-#def read_temp():
-#  temper = temp.read_temp_async()
-#  sleep(1)
-#  temp.start_conversion()
-#  sleep(1)
-#  return temper
-
+def read_temp_raw():
+    f = open(device_file, 'r')
+    lines = f.readlines()
+    f.close()
+    return lines
+ 
+def read_temp():
+    lines = read_temp_raw()
+    while lines[0].strip()[-3:] != 'YES':
+        time.sleep(0.2)
+        lines = read_temp_raw()
+    equals_pos = lines[1].find('t=')
+    if equals_pos != -1:
+        temp_string = lines[1][equals_pos+2:]
+        temp_c = float(temp_string) / 1000.0
+        return temp_c
 
 # Fara i nullstodu
 
@@ -108,7 +114,6 @@ try:
   # Greina supu
   print("Súpa: " + soup_type)
 
-  '''
   # Maela supu
   while (soup_temp > MAX_SOUP_TEMP):
     # Blaka
@@ -116,10 +121,8 @@ try:
     motors[1].to_deg(9)
     # Maela
     soup_temp = read_temp()
-  '''    
-
-  # Prenta
-  print("Soup temp: " + str(soup_temp))
+    # Prenta
+    print("Soup temp: " + str(soup_temp))
   
   sleep(2)
   motors[1].to_deg(-36)
